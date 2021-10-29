@@ -8,30 +8,42 @@
 
 import Foundation
 
+enum CoffeeType: String, CaseIterable, Identifiable {
+    case DarkRoast = "Dark Roast"
+    case OriginalBlend = "Original Blend"
+    case Vanilla = "Vanilla"
+    
+    var id: String { self.rawValue }
+}
+
+enum CoffeeSize: String, CaseIterable, Identifiable {
+    case Small = "Small"
+    case Medium = "Medium"
+    case Large = "Large"
+    
+    var id: String { self.rawValue }
+}
+
 class Coffee {
-    enum Kind: String, CaseIterable, Identifiable {
-        case DarkRoast
-        case OriginalBlend
-        case Vanilla
-        
-        var id: String { self.rawValue }
+    
+    var id = UUID()
+    var cType: CoffeeType = CoffeeType.DarkRoast
+    var cSize: CoffeeSize = CoffeeSize.Medium
+    var cCups: Int = 0
+    
+    init() {
     }
     
-    enum Size: String, CaseIterable, Identifiable {
-        case Small
-        case Medium
-        case Large
-        
-        var id: String { self.rawValue }
+    init(cType: CoffeeType, cSize: CoffeeSize, cCups: Int) {
+        self.cType = cType
+        self.cSize = cSize
+        self.cCups = cCups
     }
     
-    init(kind: Kind, size: Size, cups: Int) {
-        self.kind = kind
-        self.size = size
-        self.cups = cups
+    init(cID: UUID, cType: CoffeeType, cSize: CoffeeSize, cCups: Int) {
+        self.id = cID
+        self.cType = cType
+        self.cSize = cSize
+        self.cCups = cCups
     }
-    
-    var kind: Kind = Kind.DarkRoast
-    var size: Size = Size.Medium
-    var cups: Int = 0
 }

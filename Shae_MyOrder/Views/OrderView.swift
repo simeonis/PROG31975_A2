@@ -9,10 +9,10 @@
 import SwiftUI
 
 struct OrderView: View {
-    @StateObject var order: Order = Order()
+    // @StateObject var order: Order = Order()
     @State private var _selection: Int? = nil
-    @State private var _selectedCoffeeKind: Coffee.Kind = Coffee.Kind.DarkRoast
-    @State private var _selectedCoffeeSize: Coffee.Size = Coffee.Size.Medium
+    @State private var _selectedCoffeeKind: CoffeeType = CoffeeType.DarkRoast
+    @State private var _selectedCoffeeSize: CoffeeSize = CoffeeSize.Medium
     @State private var _numberOfCups: String = ""
     @State private var showAlert: Bool = false
     
@@ -20,11 +20,11 @@ struct OrderView: View {
     
     private func addCoffee() -> Void {
         // Add Coffee to order list
-        order.coffeeList.append(Coffee(kind: _selectedCoffeeKind, size: _selectedCoffeeSize, cups: numberOfCups))
+        // order.coffeeList.append(Coffee(kind: _selectedCoffeeKind, size: _selectedCoffeeSize, cups: numberOfCups))
         
         // Reset selections to default
-        _selectedCoffeeKind = Coffee.Kind.DarkRoast
-        _selectedCoffeeSize = Coffee.Size.Medium
+        _selectedCoffeeKind = CoffeeType.DarkRoast
+        _selectedCoffeeSize = CoffeeSize.Medium
         _numberOfCups = ""
     }
     
@@ -36,8 +36,8 @@ struct OrderView: View {
                     Section(header: Text("Select Coffee Type").bold()) {
                         Picker("Coffee Type", selection: $_selectedCoffeeKind)
                         {
-                            ForEach(Coffee.Kind.allCases) { type in
-                                Text(type.rawValue.camelCaseToWord()).tag(type)
+                            ForEach(CoffeeType.allCases) { type in
+                                Text(type.rawValue).tag(type)
                             }
                         }
                     }
@@ -45,8 +45,8 @@ struct OrderView: View {
                     Section(header: Text("Select Coffee Size").bold()) {
                         Picker("Coffee Size", selection: $_selectedCoffeeSize)
                         {
-                            ForEach(Coffee.Size.allCases) { type in
-                                Text(type.rawValue.camelCaseToWord()).tag(type)
+                            ForEach(CoffeeSize.allCases) { size in
+                                Text(size.rawValue).tag(size)
                             }
                         }.pickerStyle(SegmentedPickerStyle())
                     }
@@ -83,7 +83,7 @@ struct OrderView: View {
             .navigationBarTitle("Order", displayMode: .inline)
         } // NavigationView
         .navigationViewStyle(StackNavigationViewStyle())
-        .environmentObject(order)
+        //.environmentObject(order)
     }
 }
 
