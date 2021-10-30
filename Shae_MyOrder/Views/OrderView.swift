@@ -15,17 +15,25 @@ struct OrderView: View {
     @State private var _selectedCoffeeSize: CoffeeSize = CoffeeSize.Medium
     @State private var _numberOfCups: String = ""
     @State private var showAlert: Bool = false
+    @State private var addSuccess: Bool = false
     
     private var numberOfCups : Int { return (Int(self._numberOfCups) ?? 0) }
     
     private func addCoffee() -> Void {
-        // Add Coffee to order list
-        self.coreDBHelper.addOrder(coffee: Coffee(cType: _selectedCoffeeType, cSize: _selectedCoffeeSize, cCups: numberOfCups))
-        
-        // Reset selections to default
-        _selectedCoffeeType = CoffeeType.DarkRoast
-        _selectedCoffeeSize = CoffeeSize.Medium
-        _numberOfCups = ""
+        showAlert = true
+        if (numberOfCups > 0) {
+            // Add Coffee to order list
+            self.coreDBHelper.addOrder(coffee: Coffee(cType: _selectedCoffeeType, cSize: _selectedCoffeeSize, cCups: numberOfCups))
+            
+            // Reset selections to default
+            _selectedCoffeeType = CoffeeType.DarkRoast
+            _selectedCoffeeSize = CoffeeSize.Medium
+            _numberOfCups = ""
+            
+            addSuccess = true
+        } else {
+            addSuccess = false
+        }
     }
     
     private func viewOrders() -> Void {
@@ -63,7 +71,7 @@ struct OrderView: View {
                     }
 
                     Section {
-                        Button(action: { showAlert = true }) {
+                        Button(action: { addCoffee() }) {
                             Image(systemName: "plus")
                                 .foregroundColor(Color.white)
                                 .padding(0).frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
@@ -72,10 +80,10 @@ struct OrderView: View {
                     }.listRowInsets(EdgeInsets())
                     
                     .alert(isPresented: $showAlert) {
-                        if (numberOfCups > 0) {
+                        if (addSuccess) {
                             return Alert(title: Text("Order Added"),
                                   message: Text("Your order has successfully been added."),
-                                  dismissButton: .cancel(Text("OK"), action: { self.addCoffee() }))
+                                  dismissButton: .cancel(Text("OK")))
                         } else {
                             return Alert(title: Text("Invalid Order"),
                                   message: Text("Number of cups must be greater than zero."),

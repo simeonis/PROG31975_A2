@@ -28,6 +28,7 @@ struct DisplayView: View {
         if (selectedIndex >= 0 && selectedIndex < self.coreDBHelper.orderList.count) {
             self.coreDBHelper.deleteOrder(coffeeID: self.coreDBHelper.orderList[selectedIndex].id!)
             self.coreDBHelper.orderList.remove(at: selectedIndex)
+            self.selectedIndex = -1
         }
     }
     
