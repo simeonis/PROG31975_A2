@@ -10,8 +10,8 @@ import SwiftUI
 
 struct DisplayView: View {
     @EnvironmentObject var coreDBHelper : CoreDBHelper
-    @State private var _selection: Int? = nil
     @State private var showDelAlert: Bool = false
+    @State private var showEditView : Bool = false
     @State private var selectedIndex : Int = -1
     
     private func selectedColor(index : Int) -> Color {
@@ -34,7 +34,6 @@ struct DisplayView: View {
     var body: some View {
         VStack {
             if (coreDBHelper.orderList.count > 0) {
-                NavigationLink(destination: EditOrderView(index: selectedIndex), tag: 2, selection: $_selection) {}
                 List {
                     ForEach(self.coreDBHelper.orderList.enumerated().map({$0}), id: \.element.self)
                     { i, currentOrder in
@@ -57,16 +56,18 @@ struct DisplayView: View {
                     }
                 }.listStyle(InsetGroupedListStyle())
             } else {
-                NavigationLink(destination: EditOrderView(index: selectedIndex), tag: 2, selection: $_selection) {}
                 Text("You have no orders")
             }
         }// VStack
         .navigationBarItems(trailing:
             HStack {
                 // Edit Button
-                Button(action: { _selection = 2 }) {
+                Button(action: { showEditView = true }) {
                     Image(systemName: "pencil")
                 }.padding().disabled(selectedIndex < 0)
+                .sheet(isPresented: self.$showEditView){
+                    EditOrderView(index: selectedIndex, showEditView: $showEditView)
+                }//sheet
                 
                 // Delete Button
                 Button(action: { showDelAlert = true }) {

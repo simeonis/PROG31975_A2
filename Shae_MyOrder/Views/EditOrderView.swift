@@ -15,6 +15,7 @@ struct EditOrderView: View {
     @State private var showAlert: Bool = false
     
     @State var index : Int
+    @Binding var showEditView : Bool
     
     private var numberOfCups : Int { return (Int(self._numberOfCups) ?? 0) }
     
@@ -23,6 +24,7 @@ struct EditOrderView: View {
         self.coreDBHelper.orderList[index].size = _selectedCoffeeSize.rawValue
         self.coreDBHelper.orderList[index].cups = Int32(numberOfCups)
         self.coreDBHelper.updateOrder(updatedOrder: self.coreDBHelper.orderList[index])
+        showEditView = false
     }
     
     var body: some View {
@@ -54,7 +56,7 @@ struct EditOrderView: View {
                     }
 
                     Section {
-                        Button(action: { showAlert = true }) {
+                        Button(action: { self.updateCoffee() }) {
                             Image(systemName: "pencil.circle")
                                 .foregroundColor(Color.white)
                                 .padding(0).frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
@@ -95,7 +97,8 @@ struct EditOrderView: View {
 }
 
 struct EditOrderView_Previews: PreviewProvider {
+    @State static var value = true
     static var previews: some View {
-        EditOrderView(index: -1)
+        EditOrderView(index: -1, showEditView: $value)
     }
 }
