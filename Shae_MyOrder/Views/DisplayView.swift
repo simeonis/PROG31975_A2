@@ -10,14 +10,24 @@ import SwiftUI
 
 struct DisplayView: View {
     @EnvironmentObject var coreDBHelper : CoreDBHelper
-    @State private var showAlert: Bool = false
+    @State private var showDelAlert: Bool = false
+    @State private var selectedIndex : Int = -1
     
-    private func deleteAll() -> Void {
-        for order in self.coreDBHelper.orderList {
-            self.coreDBHelper.deleteOrder(coffeeID: order.id!)
+    private func selectedColor(index : Int) -> Color {
+        return self.selectedIndex == index ? Color.white : Color.black
+    }
+    
+    private func orderNumber(index : Int) -> Int {
+        return self.coreDBHelper.orderList.count - index
+    }
+    
+    private func deleteOrder() -> Void {
+        // Button should always be disabled if no order is selected,
+        // making this guard redundant.
+        if (selectedIndex >= 0 && selectedIndex < self.coreDBHelper.orderList.count) {
+            self.coreDBHelper.deleteOrder(coffeeID: self.coreDBHelper.orderList[selectedIndex].id!)
+            self.coreDBHelper.orderList.remove(at: selectedIndex)
         }
-        
-        self.coreDBHelper.orderList.removeAll()
     }
     
     var body: some View {
@@ -26,34 +36,54 @@ struct DisplayView: View {
                 List {
                     ForEach(self.coreDBHelper.orderList.enumerated().map({$0}), id: \.element.self)
                     { i, currentOrder in
-                        Section(header: Text("Order #\(coreDBHelper.orderList.count - i)")) {
-                            Text("Type: ").bold() + Text(currentOrder.type)
-                            Text("Size: ").bold() + Text(currentOrder.size)
-                            Text("Cups: ").bold() + Text((String)(currentOrder.cups))
+                        Section(header: Text("Order #\(orderNumber(index: i))")) {
+                            // Coffee Type
+                            Text("Type: ").bold().foregroundColor(selectedColor(index: i)) +
+                            Text(currentOrder.type).foregroundColor(selectedColor(index: i))
+                            // Coffee Size
+                            Text("Size: ").bold().foregroundColor(selectedColor(index: i)) +
+                            Text(currentOrder.size).foregroundColor(selectedColor(index: i))
+                            // Coffee Cups
+                            Text("Cups: ").bold().foregroundColor(selectedColor(index: i)) +
+                            Text((String)(currentOrder.cups)).foregroundColor(selectedColor(index: i))
                         }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            self.selectedIndex = i
+                        }.listRowBackground(self.selectedIndex == i ? Color(red: 0/255, green: 110/255, blue: 230/255) : Color.white)
                     }
                 }.listStyle(InsetGroupedListStyle())
-                
-                .alert(isPresented: $showAlert) {
-                    Alert(title: Text("Delete All"),
-                          message: Text("Are you sure you would like to delete all orders?"),
-                          primaryButton: .destructive(Text("Delete All"), action: { self.deleteAll() }),
-                          secondaryButton: .default(Text("Cancel")))
-                }
             } else {
                 Text("You have no orders")
             }
-        } // VStack
+        }// VStack
         .navigationBarItems(trailing:
-            Button(action: { showAlert = true }) {
-            Image(systemName: "trash")
-        })
+            HStack {
+                // Edit Button
+                Button(action: { showDelAlert = true }) {
+                    Image(systemName: "pencil")
+                }.padding().disabled(selectedIndex < 0)
+                
+                // Delete Button
+                Button(action: { showDelAlert = true }) {
+                    Image(systemName: "trash")
+                }.disabled(selectedIndex < 0)
+                .alert(isPresented: $showDelAlert) {
+                    Alert(title: Text("Delete Order"),
+                          message: Text("Are you sure you would like to delete Order #\(orderNumber(index: selectedIndex))?"),
+                          primaryButton: .destructive(Text("Delete"), action: { self.deleteOrder() }),
+                          secondaryButton: .default(Text("Cancel")))
+                }
+            }
+            
+        )
         .navigationBarTitle("Your Orders")
     }
 }
 
 struct DisplayView_Previews: PreviewProvider {
     static var previews: some View {
-        DisplayView().environmentObject(Order())
+        DisplayView()
     }
 }
