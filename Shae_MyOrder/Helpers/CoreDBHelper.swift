@@ -86,7 +86,6 @@ class CoreDBHelper: ObservableObject{
         }
         
         return nil
-        
     }
     
     func deleteOrder(coffeeID : UUID){
@@ -127,7 +126,7 @@ class CoreDBHelper: ObservableObject{
             } catch let error as NSError{
                 print(#function, "Unable to update data \(error)")
             }
-        }else{
+        } else {
             print(#function, "No matching data found")
         }
     }
