@@ -13,7 +13,8 @@ final class CoffeeMO: NSManagedObject {
     @NSManaged var id: UUID?
     @NSManaged var type : String
     @NSManaged var size : String
-    @NSManaged var count : Int32
+    @NSManaged var cups : Int32
+    @NSManaged var dateAdded: Date
 }
 
 extension CoffeeMO{
@@ -22,6 +23,6 @@ extension CoffeeMO{
             cID: id ?? UUID(),
             cType: CoffeeType(rawValue: type) ?? CoffeeType.DarkRoast,
             cSize: CoffeeSize(rawValue: size) ?? CoffeeSize.Medium,
-            cCups: Int(count))
+            cCups: Int(cups))
     }
 }

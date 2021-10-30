@@ -11,6 +11,8 @@
 		F01BB0D226FECF2000C33357 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F01BB0D126FECF2000C33357 /* Assets.xcassets */; };
 		F01BB0D526FECF2000C33357 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F01BB0D426FECF2000C33357 /* Preview Assets.xcassets */; };
 		F04C3ABB272CB569000BD0AC /* CoffeeMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04C3ABA272CB569000BD0AC /* CoffeeMO.swift */; };
+		F04C3ABD272CC0C5000BD0AC /* CoreDBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04C3ABC272CC0C5000BD0AC /* CoreDBHelper.swift */; };
+		F04C3ABF272CCAD2000BD0AC /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04C3ABE272CCAD2000BD0AC /* Persistence.swift */; };
 		F05D54E7272C15C100C315EC /* Shae_MyOrder.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F05D54E5272C15C100C315EC /* Shae_MyOrder.xcdatamodeld */; };
 		F0CFD8B726FED20900B8129F /* DisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CFD8B626FED20900B8129F /* DisplayView.swift */; };
 		F0CFD8B926FED5FC00B8129F /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0CFD8B826FED5FC00B8129F /* OrderView.swift */; };
@@ -26,6 +28,8 @@
 		F01BB0D426FECF2000C33357 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F01BB0D626FECF2000C33357 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F04C3ABA272CB569000BD0AC /* CoffeeMO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeMO.swift; sourceTree = "<group>"; };
+		F04C3ABC272CC0C5000BD0AC /* CoreDBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDBHelper.swift; sourceTree = "<group>"; };
+		F04C3ABE272CCAD2000BD0AC /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		F05D54E6272C15C100C315EC /* Shae_MyOrder.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Shae_MyOrder.xcdatamodel; sourceTree = "<group>"; };
 		F0CFD8B626FED20900B8129F /* DisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayView.swift; sourceTree = "<group>"; };
 		F0CFD8B826FED5FC00B8129F /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
@@ -71,6 +75,7 @@
 				F01BB0D126FECF2000C33357 /* Assets.xcassets */,
 				F01BB0D626FECF2000C33357 /* Info.plist */,
 				F01BB0D326FECF2000C33357 /* Preview Content */,
+				F04C3ABE272CCAD2000BD0AC /* Persistence.swift */,
 			);
 			path = Shae_MyOrder;
 			sourceTree = "<group>";
@@ -107,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				F0EF84AB26FFC12300965BFC /* CustomStyle.swift */,
+				F04C3ABC272CC0C5000BD0AC /* CoreDBHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -181,6 +187,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F04C3ABB272CB569000BD0AC /* CoffeeMO.swift in Sources */,
+				F04C3ABD272CC0C5000BD0AC /* CoreDBHelper.swift in Sources */,
 				F0CFD8B926FED5FC00B8129F /* OrderView.swift in Sources */,
 				F0CFD8BD26FEF16700B8129F /* Coffee.swift in Sources */,
 				F05D54E7272C15C100C315EC /* Shae_MyOrder.xcdatamodeld in Sources */,
@@ -188,6 +195,7 @@
 				F0EF84AC26FFC12300965BFC /* CustomStyle.swift in Sources */,
 				F01BB0CE26FECF1F00C33357 /* Shae_MyOrderApp.swift in Sources */,
 				F0EF84AE27012F1000965BFC /* Order.swift in Sources */,
+				F04C3ABF272CCAD2000BD0AC /* Persistence.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

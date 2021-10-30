@@ -9,9 +9,9 @@
 import SwiftUI
 
 struct OrderView: View {
-    // @StateObject var order: Order = Order()
+    @EnvironmentObject var coreDBHelper : CoreDBHelper
     @State private var _selection: Int? = nil
-    @State private var _selectedCoffeeKind: CoffeeType = CoffeeType.DarkRoast
+    @State private var _selectedCoffeeType: CoffeeType = CoffeeType.DarkRoast
     @State private var _selectedCoffeeSize: CoffeeSize = CoffeeSize.Medium
     @State private var _numberOfCups: String = ""
     @State private var showAlert: Bool = false
@@ -20,12 +20,17 @@ struct OrderView: View {
     
     private func addCoffee() -> Void {
         // Add Coffee to order list
-        // order.coffeeList.append(Coffee(kind: _selectedCoffeeKind, size: _selectedCoffeeSize, cups: numberOfCups))
+        self.coreDBHelper.addOrder(coffee: Coffee(cType: _selectedCoffeeType, cSize: _selectedCoffeeSize, cCups: numberOfCups))
         
         // Reset selections to default
-        _selectedCoffeeKind = CoffeeType.DarkRoast
+        _selectedCoffeeType = CoffeeType.DarkRoast
         _selectedCoffeeSize = CoffeeSize.Medium
         _numberOfCups = ""
+    }
+    
+    private func viewOrders() -> Void {
+        self._selection = 1
+        coreDBHelper.getAllOrders()
     }
     
     var body: some View {
@@ -34,12 +39,12 @@ struct OrderView: View {
                 NavigationLink(destination: DisplayView(), tag: 1, selection: $_selection) {}
                 Form {
                     Section(header: Text("Select Coffee Type").bold()) {
-                        Picker("Coffee Type", selection: $_selectedCoffeeKind)
+                        Picker("Coffee Type", selection: $_selectedCoffeeType)
                         {
                             ForEach(CoffeeType.allCases) { type in
                                 Text(type.rawValue).tag(type)
                             }
-                        }
+                        }.pickerStyle(SegmentedPickerStyle())
                     }
                     
                     Section(header: Text("Select Coffee Size").bold()) {
@@ -79,11 +84,10 @@ struct OrderView: View {
                     }
                 } // Form
             } // VStack
-            .navigationBarItems(trailing: Button("View Orders", action: { self._selection = 1 }))
+            .navigationBarItems(trailing: Button("View Orders", action: { self.viewOrders() }))
             .navigationBarTitle("Order", displayMode: .inline)
         } // NavigationView
         .navigationViewStyle(StackNavigationViewStyle())
-        //.environmentObject(order)
     }
 }
 

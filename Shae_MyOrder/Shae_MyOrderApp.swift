@@ -10,9 +10,12 @@ import SwiftUI
 
 @main
 struct Shae_MyOrderApp: App {
+    let persistenceController = PersistenceController.shared
+    let coreDBHelper = CoreDBHelper(context: PersistenceController.shared.container.viewContext)
+    
     var body: some Scene {
         WindowGroup {
-            OrderView()
+            OrderView().environmentObject(coreDBHelper)
         }
     }
 }

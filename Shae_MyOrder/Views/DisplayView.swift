@@ -9,27 +9,40 @@
 import SwiftUI
 
 struct DisplayView: View {
-    // @EnvironmentObject var order: Order
+    @EnvironmentObject var coreDBHelper : CoreDBHelper
     @State private var showAlert: Bool = false
+    
+    private func deleteAll() -> Void {
+        for order in self.coreDBHelper.orderList {
+            self.coreDBHelper.deleteOrder(coffeeID: order.id!)
+        }
+        
+        self.coreDBHelper.orderList.removeAll()
+    }
     
     var body: some View {
         VStack {
-//            List {
-//                ForEach(0..<order.coffeeList.count, id:\.self) { i in
-//                    Section(header: Text("Order #\(i + 1)")) {
-//                        Text("Type: ").bold() + Text(order.coffeeList[i].kind.rawValue.camelCaseToWord())
-//                        Text("Size: ").bold()  + Text(order.coffeeList[i].size.rawValue.camelCaseToWord())
-//                        Text("Cups: ").bold() + Text((String)(order.coffeeList[i].cups))
-//                    }
-//                }
-//            }.listStyle(InsetGroupedListStyle())
-            
-//            .alert(isPresented: $showAlert) {
-//                Alert(title: Text("Delete All"),
-//                      message: Text("Are you sure you would like to delete all orders?"),
-//                      primaryButton: .destructive(Text("Delete All"), action: { order.clearOrders() }),
-//                      secondaryButton: .default(Text("Cancel")))
-//            }
+            if (coreDBHelper.orderList.count > 0) {
+                List {
+                    ForEach(self.coreDBHelper.orderList.enumerated().map({$0}), id: \.element.self)
+                    { i, currentOrder in
+                        Section(header: Text("Order #\(coreDBHelper.orderList.count - i)")) {
+                            Text("Type: ").bold() + Text(currentOrder.type)
+                            Text("Size: ").bold() + Text(currentOrder.size)
+                            Text("Cups: ").bold() + Text((String)(currentOrder.cups))
+                        }
+                    }
+                }.listStyle(InsetGroupedListStyle())
+                
+                .alert(isPresented: $showAlert) {
+                    Alert(title: Text("Delete All"),
+                          message: Text("Are you sure you would like to delete all orders?"),
+                          primaryButton: .destructive(Text("Delete All"), action: { self.deleteAll() }),
+                          secondaryButton: .default(Text("Cancel")))
+                }
+            } else {
+                Text("You have no orders")
+            }
         } // VStack
         .navigationBarItems(trailing:
             Button(action: { showAlert = true }) {
