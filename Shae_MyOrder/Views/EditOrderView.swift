@@ -86,7 +86,6 @@ struct EditOrderView: View {
                 Text("Invalid order")
             }
         } // VStack
-        .navigationBarTitle("Edit Order #\(coreDBHelper.orderList.count - index)")
         .onAppear() {
             if (index >= 0 && index < self.coreDBHelper.orderList.count) {
                 let coffee = self.coreDBHelper.orderList[index].convertToCoffee()
@@ -96,7 +95,6 @@ struct EditOrderView: View {
             }
         }
         .onDisappear(){
-            self.coreDBHelper.orderList.removeAll()
             self.coreDBHelper.getAllOrders()
         }
     }
